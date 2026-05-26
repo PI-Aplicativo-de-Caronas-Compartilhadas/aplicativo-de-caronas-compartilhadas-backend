@@ -12,9 +12,10 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table (name = "tb_usuario")
 public class Usuario {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@NotBlank(message = "O atributo nome é obrigatório!")
 	@Size(min = 3, max = 255, message = "O atributo nome deve ter no minimo 3 e no máximo 255 caracteres.")
@@ -38,7 +39,7 @@ public class Usuario {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

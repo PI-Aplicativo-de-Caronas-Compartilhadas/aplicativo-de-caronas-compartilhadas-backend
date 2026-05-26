@@ -1,7 +1,6 @@
 # 🚗 Rachou - Aplicativo de Caronas Compartilhadas
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-M%C3%B3dulo%20Pronto-brightgreen?style=for-the-badge" alt="Status">
   <img src="https://img.shields.io/badge/Java-Spring%20Boot-brightgreen?style=for-the-badge&logo=springboot" alt="Spring Boot">
   <img src="https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge&logo=mysql" alt="MySQL">
 </p>

@@ -58,7 +58,7 @@ O gerenciamento e a execução deste projeto seguem a metodologia ágil, com a e
 
 * 🔴 **Product Owner (PO):** [Roberta](https://github.com/robertairds) — Responsável pela visão do produto, requisitos e gerenciamento do backlog.
 * 🔵 **Scrum Master:** [Lilian](https://github.com/lilianlacerda) — Facilitadora do time, remoção de impedimentos e processos ágeis.
-* 🟢 **Equipe de Desenvolvimento (Devs):** * [Igor](https://github.com/yama-knz) — Engenharia de Software / Backend
+* 🟢 **Equipe de Desenvolvimento (Devs):**  [Igor](https://github.com/yama-knz) — Engenharia de Software / Backend
   * [Vinicius](https://github.com/viniovicente99) — Engenharia de Software / Backend
 * 💗 **QA / Tester:** [Fabriciana](https://github.com/fabricianalima) — Garantia de qualidade, mapeamento de cenários e testes de endpoints no Insomnia.
 

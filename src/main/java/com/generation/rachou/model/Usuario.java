@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,12 +51,17 @@ public class Usuario {
 	@NotBlank(message = "O tipo do usuário é obrigatório!")
 	@Size(min = 3, max = 50, message = "O tipo deve ter no minimo 3 e no máximo 50 caracteres.")
 	private String tipo;
+	
+	@Schema(example = "email@email.com.br")
+	@NotBlank(message = "O Atributo Usuário é Obrigatório!")
+	@Email(message = "O Atributo Usuário deve ser um email válido!")
+	private String usuario;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties(value = "usuario", allowSetters = true)
 	private List<Viagem> viagem;
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -117,6 +123,14 @@ public class Usuario {
 
 	public void setViagem(List<Viagem> viagem) {
 		this.viagem = viagem;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	
 }

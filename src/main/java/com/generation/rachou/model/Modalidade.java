@@ -58,6 +58,14 @@ public class Modalidade {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
+	public List<Viagem> getViagem() {
+		return viagem;
+	}
+
+	public void setViagem(List<Viagem> viagem) {
+		this.viagem = viagem;
+	}
 	
 	
 }

@@ -1,11 +1,19 @@
 package com.generation.rachou.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -21,6 +29,7 @@ public class Usuario {
 	@Size(min = 3, max = 255, message = "O atributo nome deve ter no minimo 3 e no máximo 255 caracteres.")
 	private String nome;
 	
+	@Email
 	@Column(unique = true)
 	@NotBlank(message = "O atributo email é obrigatório!")
 	@Size(max = 50, message = "O atributo nome deve ter no máximo 50 caracteres.")
@@ -32,11 +41,30 @@ public class Usuario {
 	private String telefone;
 	
 	@NotBlank(message = "O atributo senha é obrigatório!")
-	@Size(min = 12, max = 50, message = "O atributo senha deve ter no minimo 12 e no máximo 50 caracteres.")
+	@Size(min = 12, message = "O atributo senha deve ter no minimo 12 caracteres.")
 	private String senha;
+	
+	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
+	private String foto;
+	
+	@NotBlank(message = "O tipo do usuário é obrigatório!")
+	@Size(min = 3, max = 50, message = "O tipo deve ter no minimo 3 e no máximo 50 caracteres.")
+	private String tipo;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties(value = "usuario", allowSetters = true)
+	private List<Viagem> viagem;
+	
 	public long getId() {
 		return id;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 	public void setId(Long id) {
@@ -74,6 +102,21 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public List<Viagem> getViagem() {
+		return viagem;
+	}
+
+	public void setViagem(List<Viagem> viagem) {
+		this.viagem = viagem;
+	}
 	
 }

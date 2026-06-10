@@ -35,14 +35,14 @@ public class ViagemController {
 
 	@Autowired
 	private ViagemRepository viagemRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private ModalidadeRepository modalidadeRepository;
-  
-  @Autowired
+
+	@Autowired
 	private ViagemService viagemService; // Injeta a sua Service aqui em cima
 
 	@GetMapping
@@ -65,9 +65,10 @@ public class ViagemController {
 	public ResponseEntity<Viagem> cadastrarViagem(@Valid @RequestBody Viagem viagem) {
 
 		viagem.setId(null);
-		
-		// Chame a Service para injetar a previsão de saída e chegada com a lógica randômica
-	    Viagem viagemProcessada = viagemService.prepararHorariosViagem(viagem);
+
+		// Chame a Service para injetar a previsão de saída e chegada com a lógica
+		// randômica
+		Viagem viagemProcessada = viagemService.prepararHorariosViagem(viagem);
 
 		Usuario usuario = usuarioRepository.findById(viagem.getUsuario().getId())
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
@@ -85,13 +86,15 @@ public class ViagemController {
 	public ResponseEntity<Viagem> atualizarViagem(@Valid @RequestBody Viagem viagem) {
 
 		if (viagemRepository.existsById(viagem.getId())) {
-			return ResponseEntity.status(HttpStatus.OK).body(viagemRepository.save(viagem));
+
+			Viagem viagemProcessada = viagemService.prepararHorariosViagem(viagem);
+
+			return ResponseEntity.status(HttpStatus.OK).body(viagemRepository.save(viagemProcessada));
 		}
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
 	}
-	
+
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void excluirViagem(@PathVariable Long id) {

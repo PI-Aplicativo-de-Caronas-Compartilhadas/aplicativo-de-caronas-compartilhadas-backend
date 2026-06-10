@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.rachou.model.Viagem;
 import com.generation.rachou.repository.ViagemRepository;
+import com.generation.rachou.service.ViagemService;
 
 import jakarta.validation.Valid;
 
@@ -31,6 +32,8 @@ public class ViagemController {
 	@Autowired
 	private ViagemRepository viagemRepository;
 	
+	@Autowired
+	private ViagemService viagemService; // Injeta a sua Service aqui em cima
 
 	@GetMapping
 	public ResponseEntity<List<Viagem>> buscarTodas(){
@@ -52,6 +55,9 @@ public class ViagemController {
 	public ResponseEntity<Viagem> cadastrarViagem(@Valid @RequestBody Viagem viagem) {
 
 		viagem.setId(null);
+		
+		// Chame a Service para injetar a previsão de saída e chegada com a lógica randômica
+	    Viagem viagemProcessada = viagemService.prepararHorariosViagem(viagem);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(viagemRepository.save(viagem));
 	}

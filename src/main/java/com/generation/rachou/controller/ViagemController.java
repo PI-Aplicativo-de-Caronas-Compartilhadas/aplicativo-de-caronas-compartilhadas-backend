@@ -23,6 +23,7 @@ import com.generation.rachou.model.Viagem;
 import com.generation.rachou.repository.ModalidadeRepository;
 import com.generation.rachou.repository.UsuarioRepository;
 import com.generation.rachou.repository.ViagemRepository;
+import com.generation.rachou.service.ViagemService;
 
 import jakarta.validation.Valid;
 
@@ -39,6 +40,9 @@ public class ViagemController {
 	
 	@Autowired
 	private ModalidadeRepository modalidadeRepository;
+  
+  @Autowired
+	private ViagemService viagemService; // Injeta a sua Service aqui em cima
 
 	@GetMapping
 	public ResponseEntity<List<Viagem>> buscarTodas() {
@@ -60,6 +64,9 @@ public class ViagemController {
 	public ResponseEntity<Viagem> cadastrarViagem(@Valid @RequestBody Viagem viagem) {
 
 		viagem.setId(null);
+		
+		// Chame a Service para injetar a previsão de saída e chegada com a lógica randômica
+	    Viagem viagemProcessada = viagemService.prepararHorariosViagem(viagem);
 
 		Usuario usuario = usuarioRepository.findById(viagem.getUsuario().getId())
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));

@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.rachou.model.Usuario;
+import com.generation.rachou.model.UsuarioLogin;
 import com.generation.rachou.repository.UsuarioRepository;
+import com.generation.rachou.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -30,6 +32,9 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@GetMapping
 	public ResponseEntity<List<Usuario>> buscarTodos() {
@@ -47,12 +52,12 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioRepository.findAllByNomeContainingIgnoreCase(nome));
 	}
 
-	@PostMapping
+	@PostMapping("/cadastrar")
 	public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario) {
 
-		usuario.setId(null);
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
+	    return usuarioService.cadastrarUsuario(usuario)
+	            .map(resp -> ResponseEntity.status(HttpStatus.CREATED).body(resp))
+	            .orElse(ResponseEntity.badRequest().build());
 	}
 
 	@PutMapping
@@ -64,6 +69,13 @@ public class UsuarioController {
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
+	}
+	
+	@PostMapping("/logar")
+	public ResponseEntity<UsuarioLogin> autenticar(@Valid @RequestBody Optional<UsuarioLogin> usuarioLogin) {
+		return usuarioService.autenticarUsuario(usuarioLogin)
+				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)

@@ -41,7 +41,6 @@ public class Viagem {
 	
 	private LocalDateTime previsaoChegada;
 	
-	
 	@Size(min = 5, max = 50)
 	private String status;
 
@@ -121,6 +120,27 @@ public class Viagem {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+
+	public Modalidade getModalidade() {
+		return modalidade;
+	}
+
+
+	public void setModalidade(Modalidade modalidade) {
+		this.modalidade = modalidade;
+	}
+	
 	
 
 }

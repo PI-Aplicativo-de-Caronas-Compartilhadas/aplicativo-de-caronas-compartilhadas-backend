@@ -32,7 +32,7 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
 
@@ -55,38 +55,34 @@ public class UsuarioController {
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario) {
 
-	    return usuarioService.cadastrarUsuario(usuario)
-	            .map(resp -> ResponseEntity.status(HttpStatus.CREATED).body(resp))
-	            .orElse(ResponseEntity.badRequest().build());
+		return usuarioService.cadastrarUsuario(usuario)
+				.map(resp -> ResponseEntity.status(HttpStatus.CREATED).body(resp))
+				.orElse(ResponseEntity.badRequest().build());
 	}
 
 	@PutMapping
 	public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario) {
 
-		if (usuarioRepository.existsById(usuario.getId())) {
-			return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
-		}
-
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
+		return usuarioService.atualizarUsuario(usuario).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-	
+
 	@PostMapping("/logar")
 	public ResponseEntity<UsuarioLogin> autenticar(@Valid @RequestBody Optional<UsuarioLogin> usuarioLogin) {
 		return usuarioService.autenticarUsuario(usuarioLogin)
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
-	
+
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		
-		if(usuario.isEmpty()) {
+
+		if (usuario.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
-		
+
 		usuarioRepository.deleteById(id);
 	}
 

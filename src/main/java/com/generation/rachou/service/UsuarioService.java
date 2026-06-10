@@ -40,7 +40,7 @@ public class UsuarioService {
 
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
 
-		if (usuarioRepository.findByEmail(usuario.getUsuario()).isPresent()) {
+		if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
 			return Optional.empty();
 		}
 
@@ -56,7 +56,7 @@ public class UsuarioService {
 			return Optional.empty();
 		}
 
-		Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getUsuario());
+		Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
 		
 		if (usuarioExistente.isPresent() && !usuarioExistente.get().getId().equals(usuario.getId())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
@@ -77,9 +77,9 @@ public class UsuarioService {
 		try {
  
 			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(login.getUsuario(), login.getSenha()));
+					new UsernamePasswordAuthenticationToken(login.getEmail(), login.getSenha()));
 
-			return usuarioRepository.findByEmail(login.getUsuario())
+			return usuarioRepository.findByEmail(login.getEmail())
 				.map(usuario -> construirRespostaLogin(login, usuario));
 
 		} catch (Exception e) {
@@ -94,7 +94,7 @@ public class UsuarioService {
 		usuarioLogin.setNome(usuario.getNome());
 		usuarioLogin.setFoto(usuario.getFoto());
 		usuarioLogin.setSenha("");
-		usuarioLogin.setToken(gerarToken(usuario.getUsuario()));
+		usuarioLogin.setToken(gerarToken(usuario.getEmail()));
 		return usuarioLogin;
 		
 	}
